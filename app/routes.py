@@ -16,7 +16,7 @@ def before_request():
 @app.route('/index')
 @login_required
 def index():
-    posts = Post.query.all()
+    posts = current_user.followed_posts().all()
     return render_template('index.html.j2', title='Home page', posts=posts)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -76,3 +76,33 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html.j2', title='Edit Profile', form=form)
 
+@app.route('/follow/<username>', methods=['GET', 'POST'])
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found.'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannnot follow yourself!')
+        return redirect(url_for('user', username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash('You are following {}.'.format(username))
+    return redirect(url_for('user', username=username))
+
+@app.route('/unfollow/<username>', methods=['GET', 'POST'])
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash('User {} not found.'.format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash('You cannnot unfollow yourself!')
+        return redirect(url_for('user', username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash('You are unfollowing {}.'.format(username))
+    return redirect(url_for('user', username=username))
+    
