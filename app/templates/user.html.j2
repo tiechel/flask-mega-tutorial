@@ -1,0 +1,35 @@
+{% extends "base.html.j2" %}
+
+{% block content %}
+<div class="row h-100 pt-2" id="yellow">
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <p><img class="img-fluid" src="{{ user.avatar(128) }}" alt="Profile img"></p>
+                <div class="card-title">
+                    <span class="h2">{{ user.username }}</span>
+                    {% if user == current_user %}
+                        <a href="{{ url_for('edit_profile') }}"><i class="fas fa-edit"></i></a>
+                    {% endif %}
+                </div>
+                {% if user.about_me %}
+                <p class="card-text">
+                    {{ user.about_me }}
+                </p>
+                {% endif %}
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Email: {{ user.email }}</li>
+                {% if user.last_seen %}
+                <li class="list-group-item">Last seen on: {{ user.last_seen }}</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col">
+        {% for post in posts %}
+            {% include "_post.html.j2" %}
+        {% endfor %}    
+    </div>
+</div>
+{% endblock content %}

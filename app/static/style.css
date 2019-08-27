@@ -1,0 +1,7 @@
+html, body {
+    height: 100%;
+}
+.container-fluid {
+    margin-top: -56px;
+    padding-top: 56px;
+}
