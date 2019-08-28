@@ -1,8 +1,25 @@
 {% extends "base.html.j2" %}
 
 {% block content %}
+<div class="container">
     <h1>Hi, {{ current_user.username }}</h1>
+    <form action="" method="post" class="mb-2">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.post.label }}
+            {% if form.post.errors %}
+                {{ form.post(class="form-control is-invalid", placeholder="What's up today?") }}
+                {% for error in form.post.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+                {% endfor %}
+            {% else %}
+                {{ form.post(class="form-control", placeholder="What's up today?") }}
+            {% endif %}
+        </div>
+        <button class="btn btn-primary"><i class="fab fa-twitter"></i> Post</button>
+    </form>
     {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
+        {% include "_post.html.j2" %}
     {% endfor %}
+</div>
 {% endblock content %}
