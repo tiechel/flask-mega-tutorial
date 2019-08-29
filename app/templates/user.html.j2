@@ -1,7 +1,7 @@
 {% extends "base.html.j2" %}
 
 {% block content %}
-<div class="row h-100 pt-2" id="yellow">
+<div class="row h-100 pt-2">
     <div class="col-4">
         <div class="card">
             <div class="card-body text-center">
@@ -11,7 +11,7 @@
                     {% if user == current_user %}
                         <a href="{{ url_for('edit_profile') }}"><i class="fas fa-edit"></i></a>
                     {% elif not current_user.is_following(user) %}
-                        <a class="badge badge-secondary" href="{{ url_for('follow', username=user.username)}}">Follow</a>
+                        <a class="badge badge-secondary" href="{{ url_for('follow', username=user.username)}}">Follow me</a>
                     {% else %}
                         <a class="badge badge-primary" href="{{ url_for('unfollow', username=user.username)}}">Following</a>
                     {% endif %}
@@ -36,7 +36,17 @@
     <div class="col">
         {% for post in posts %}
             {% include "_post.html.j2" %}
-        {% endfor %}    
+        {% endfor %}
+        <nav>
+            <ul class="pagination justify-content-center">
+                {% if prev_url %}
+                    <li class="page-item"><a class="page-link" href="{{ prev_url }} ">Prev</a></li>
+                {% endif %}
+                {% if next_url %}
+                    <li class="page-item"><a class="page-link" href="{{ next_url }} ">Next</a></li>
+                {% endif %}
+            </ul>
+        </nav>
     </div>
 </div>
 {% endblock content %}

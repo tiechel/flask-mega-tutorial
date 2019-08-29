@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container">
     <h1>Hi, {{ current_user.username }}</h1>
+    {% if form %}
     <form action="" method="post" class="mb-2">
         {{ form.hidden_tag() }}
         <div class="form-group">
@@ -18,8 +19,20 @@
         </div>
         <button class="btn btn-primary"><i class="fab fa-twitter"></i> Post</button>
     </form>
+    {% endif %}
+
     {% for post in posts %}
         {% include "_post.html.j2" %}
     {% endfor %}
+    <nav>
+        <ul class="pagination justify-content-center">
+            {% if prev_url %}
+                <li class="page-item"><a class="page-link" href="{{ prev_url }} ">Prev</a></li>
+            {% endif %}
+            {% if next_url %}
+                <li class="page-item"><a class="page-link" href="{{ next_url }} ">Next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 </div>
 {% endblock content %}

@@ -4,7 +4,11 @@
             <img src="{{ post.author.avatar(48) }}" alt="image">
         </div>
         <div class="col">
-            <div class="font-weight-bold">@{{ post.author.username }}</div>
+            <div>
+                <a href="{{ url_for('user', username=post.author.username ) }}" class="fomt-weight-bold text-decoration-none">
+                @{{ post.author.username }}
+                </a>
+            </div>
             <div class="">{{ post.body }}</div>
         </div>
     </div>
