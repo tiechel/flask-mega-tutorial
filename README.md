@@ -29,7 +29,8 @@ python -m smtpd -n -c DebuggingServer localhost:8025
 
 ## .vscode/settins.json
 
-vscodeでjinja, jinja2 Snippet Kit, Better Jinjaを入れると.htmlがHTMLとして認識されなくなるのでユーザ設定に以下を追加する。
+vscodeでjinja, jinja2 Snippet Kit, Better Jinjaを入れると.htmlがHTMLとして認識されなくなる。
+flake8の一部のエラーを抑制する。
 
 ``` json
 {
@@ -37,7 +38,11 @@ vscodeでjinja, jinja2 Snippet Kit, Better Jinjaを入れると.htmlがHTMLと�
         "*.html": "html"
     },
     "python.pythonPath": "venv\\Scripts\\python.exe",
-    "python.linting.pylintEnabled": true
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.flake8Args": [
+        "--max-line-length=120",
+        "--ignore=E402"
+    ]
 }
 ```
-
