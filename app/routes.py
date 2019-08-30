@@ -6,11 +6,13 @@ from app import app, db
 from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 from app.models import User, Post
 
+
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -32,6 +34,7 @@ def index():
         'index.html', title='Home page', form=form, posts=posts.items,
         next_url=next_url, prev_url=prev_url)
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -49,10 +52,12 @@ def login():
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
+
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -68,6 +73,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
+
 @app.route('/user/<username>')
 @login_required
 def user(username):
@@ -79,6 +85,7 @@ def user(username):
     return render_template(
         'user.html', user=user, posts=posts.items,
         next_url=next_url, prev_url=prev_url)
+
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
@@ -95,6 +102,7 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit Profile', form=form)
 
+
 @app.route('/follow/<username>', methods=['GET', 'POST'])
 @login_required
 def follow(username):
@@ -110,6 +118,7 @@ def follow(username):
     flash('You are following {}.'.format(username))
     return redirect(url_for('user', username=username))
 
+
 @app.route('/unfollow/<username>', methods=['GET', 'POST'])
 @login_required
 def unfollow(username):
@@ -124,6 +133,7 @@ def unfollow(username):
     db.session.commit()
     flash('You are unfollowing {}.'.format(username))
     return redirect(url_for('user', username=username))
+
 
 @app.route('/explore')
 @login_required
