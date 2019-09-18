@@ -28,7 +28,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Email: {{ user.email }}</li>
                 {% if user.last_seen %}
-                <li class="list-group-item">Last seen on: {{ user.last_seen }}</li>
+                <li class="list-group-item">Last seen on: {{ moment(user.last_seen).format('LLL') }}</li>
                 {% endif %}
             </ul>
         </div>
