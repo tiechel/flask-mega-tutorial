@@ -18,3 +18,5 @@ class Config(object):
     ADMINS = ['m-fukuchi@sts-inc.co.jp']
 
     POSTS_PER_PAGE = 3
+
+    LANGUAGES = ['jp', 'en']
