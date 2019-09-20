@@ -11,6 +11,9 @@
                 said {{ moment(post.timestamp).fromNow() }}
             </div>
             <div class="">{{ post.body }}</div>
+            {% if post.language  %}
+            <a href="#">Translate from {{ post.language }}</a>
+            {% endif %}
         </div>
     </div>
 </div>
