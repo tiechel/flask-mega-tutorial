@@ -1,30 +1,39 @@
 from datetime import datetime, timedelta
 import unittest
-from app import app, db
+from app import create_app, db
 from app.models import User, Post
+from config import Config
 
-class userModelCase(unittest.TestCase):
+
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite://'  # on memory
+
+
+class UserModelCase(unittest.TestCase):
     def setUp(self):
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite://'
+        self.app = create_app(TestConfig)
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         db.create_all()
 
     def tearDown(self):
         db.session.remove()
         db.drop_all()
-    
+
     def test_password_hash(self):
         u = User(username='susan')
         u.set_password('cat')
         self.assertFalse(u.check_password('dog'))
         self.assertTrue(u.check_password('cat'))
-    
+
     def test_avatar(self):
         u = User(username='john', email='john@example.com')
         self.assertEqual(
             u.avatar(128),
             ('https://www.gravatar.com/avatar/d4c74594d841139328695756648b6bd6?d=identicon&s=128')
         )
-    
+
     def test_follow(self):
         u1 = User(username='john', email='john@example.com')
         u2 = User(username='susan', email='susan@example.com')
@@ -47,7 +56,7 @@ class userModelCase(unittest.TestCase):
         self.assertFalse(u1.is_following(u2))
         self.assertEqual(u1.followed.count(), 0)
         self.assertEqual(u2.followed.count(), 0)
-    
+
     def test_follow_post(self):
         # create four users
         u1 = User(username='john', email='john@example.com')
@@ -66,10 +75,10 @@ class userModelCase(unittest.TestCase):
         db.session.commit()
 
         # setup the followes
-        u1.follow(u2) # john -> susan
-        u1.follow(u4) # john -> david
-        u2.follow(u3) # susam -> mary
-        u3.follow(u4) # mary -> david
+        u1.follow(u2)  # john -> susan
+        u1.follow(u4)  # john -> david
+        u2.follow(u3)  # susam -> mary
+        u3.follow(u4)  # mary -> david
         db.session.commit()
 
         # check the followed posts of each user
@@ -82,7 +91,6 @@ class userModelCase(unittest.TestCase):
         self.assertEqual(f3, [p3, p4])
         self.assertEqual(f4, [p4])
 
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
-
-
