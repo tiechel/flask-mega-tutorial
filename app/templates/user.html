@@ -9,11 +9,11 @@
                 <div class="card-title">
                     <span class="h2">{{ user.username }}</span>
                     {% if user == current_user %}
-                        <a href="{{ url_for('edit_profile') }}"><i class="fas fa-edit"></i></a>
+                        <a href="{{ url_for('main.edit_profile') }}"><i class="fas fa-edit"></i></a>
                     {% elif not current_user.is_following(user) %}
-                        <a class="badge badge-secondary" href="{{ url_for('follow', username=user.username)}}">Follow me</a>
+                        <a class="badge badge-secondary" href="{{ url_for('main.follow', username=user.username)}}">Follow me</a>
                     {% else %}
-                        <a class="badge badge-primary" href="{{ url_for('unfollow', username=user.username)}}">Following</a>
+                        <a class="badge badge-primary" href="{{ url_for('main.unfollow', username=user.username)}}">Following</a>
                     {% endif %}
                 </div>
                 <div>
