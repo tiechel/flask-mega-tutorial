@@ -23,9 +23,9 @@
                 <ul class="navbar-nav">
                     {% if current_user.is_anonymous %}
                         {% if 'login' in request.url_rule.rule %}
-                        <li class="nav-item active"><a href="{{ url_for('login') }}" class="nav-link">Login <span class="sr-only">(current)</span></a></li>
+                        <li class="nav-item active"><a href="{{ url_for('auth.login') }}" class="nav-link">Login <span class="sr-only">(current)</span></a></li>
                         {% else %}
-                        <li class="nav-item"><a href="{{ url_for('login') }}" class="nav-link">Login</a></li>
+                        <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link">Login</a></li>
                         {% endif %}
                     {% else %}
                         {% if 'index' in request.url_rule.rule %}
@@ -46,7 +46,7 @@
                         <li class="nav-item"><a href="{{ url_for('explore') }}" class="nav-link">Explore</a></li>
                         {% endif %}
 
-                        <li class="nav-item"><a href="{{ url_for('logout')}}" class="nav-link">Logout</a></li>
+                        <li class="nav-item"><a href="{{ url_for('auth.logout')}}" class="nav-link">Logout</a></li>
                     {% endif %}
                 </ul>
             </div>
