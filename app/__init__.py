@@ -22,6 +22,9 @@ mail = Mail(app)
 moment = Moment(app)
 babel = Babel(app)
 
+from app.errors import bp as error_bp
+app.register_blueprint(error_bp)
+
 if not app.debug:
     if app.config['MAIL_SERVER']:
         auth = None
@@ -49,7 +52,7 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.INFO)
 logger.info('Microblog startup')
 
-from app import routes, models, errors # NOQA
+from app import routes, models # NOQA
 
 
 @babel.localeselector
